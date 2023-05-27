@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Helios",
+    "description": "The Safaricom Daraja API Callback URL Service is a project aimed at providing a reliable and secure callback mechanism for integrating with the Safaricom Daraja API. Safaricom Daraja is a powerful payment gateway and mobile money API provided by Safaricom, a leading telecommunications company in Kenya.\n\nThe project's primary objective is to simplify the integration process and enhance the handling of asynchronous events triggered by the Daraja API. By providing a robust and efficient callback URL service, developers can receive real-time notifications and updates regarding various events, such as payment transactions, transaction statuses, and customer interactions.",
+    "version": "1.0.0"
+  },
+  "host": "www",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+  }
+}

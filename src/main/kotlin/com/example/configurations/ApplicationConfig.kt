@@ -8,9 +8,13 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.plugins.openapi.*
 import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.swagger.codegen.v3.generators.html.StaticHtmlCodegen
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.koin.ktor.plugin.Koin
@@ -41,10 +45,11 @@ fun Application.configureApplication() {
 
     install(StatusPages) {
         exception<Throwable> { call, throwable ->
+            throwable.printStackTrace()
             call.respond(
                 status = HttpStatusCode.InternalServerError,
                 message = ExceptionResponse(
-                    message = throwable.localizedMessage,
+                    message = throwable.localizedMessage ?: throwable.message ?: throwable.cause?.localizedMessage ?: "Something went wrong",
                     code = HttpStatusCode.InternalServerError.value
                 )
             )
@@ -101,31 +106,15 @@ fun Application.configureApplication() {
         }
     }
 
-//    install(CORS) {
-//        anyHost()
-//        allowHeader(HttpHeaders.ContentType)
-//    }
-//
-//    install(SwaggerUI) {
-//        swagger {
-//            swaggerUrl = "swagger-ui"
-//            forwardRoot = true
-//        }
-//        info {
-//            title = "Example API"
-//            version = "latest"
-//            description = "Example API for testing and demonstration purposes."
-//        }
-//        server {
-//            url = "http://localhost:8080"
-//            description = "Development Server"
-//        }
-//    }
+    install(CORS) {
+        anyHost()
+        allowHeader(HttpHeaders.ContentType)
+    }
 
 
     routing {
         callBack()
-
+        swaggerUI(path = "swagger", swaggerFile = "openapi/swagger.json")
     }
 
 }

@@ -42,9 +42,9 @@ data class CallbackRequestMetadata @OptIn(ExperimentalSerializationApi::class) c
 
 @Serializable
 data class ItemItem @OptIn(ExperimentalSerializationApi::class) constructor(
+	@JsonNames("Name")
+	val name: String,
+
 	@JsonNames("Value")
 	val value: JsonElement? = null,
-
-	@JsonNames("Name")
-	val name: String
 )
