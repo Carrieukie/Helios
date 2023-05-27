@@ -19,10 +19,6 @@ fun Application.configureDatabases() {
     runFlyway(datasource = hikariDataSource)
 
     transaction {
-        SchemaUtils.drop(
-            ResultTable,
-            MetadataTable
-        )
         SchemaUtils.create(
             ResultTable,
             MetadataTable

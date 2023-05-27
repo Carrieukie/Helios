@@ -1,8 +1,6 @@
 package com.example.data.tables
 
 import com.example.data.models.ItemItem
-import com.example.data.models.ResultMetadata
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

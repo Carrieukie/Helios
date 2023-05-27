@@ -44,66 +44,7 @@ fun Application.configureApplication() {
     }
 
     install(StatusPages) {
-        exception<Throwable> { call, throwable ->
-            throwable.printStackTrace()
-            call.respond(
-                status = HttpStatusCode.InternalServerError,
-                message = ExceptionResponse(
-                    message = throwable.localizedMessage ?: throwable.message ?: throwable.cause?.localizedMessage ?: "Something went wrong",
-                    code = HttpStatusCode.InternalServerError.value
-                )
-            )
-            throw throwable
-        }
-
-
-        status(
-            HttpStatusCode.InternalServerError,
-            HttpStatusCode.BadGateway,
-            HttpStatusCode.NotFound,
-            HttpStatusCode.BadRequest
-        ) { call, statusCode ->
-            when (statusCode) {
-                HttpStatusCode.InternalServerError -> {
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        ExceptionResponse(
-                            "Oops! internal server error at our end",
-                            HttpStatusCode.InternalServerError.value
-                        )
-                    )
-                }
-
-                HttpStatusCode.BadGateway -> {
-                    call.respond(
-                        HttpStatusCode.BadGateway,
-                        ExceptionResponse(
-                            "Oops! We got a bad gateway. Fixing it. Hold on!",
-                            HttpStatusCode.BadGateway.value
-                        )
-                    )
-                }
-
-                HttpStatusCode.NotFound -> {
-                    call.respond(
-                        HttpStatusCode.NotFound,
-                        ExceptionResponse(
-                            "Oops! We don't have that url!Please check it again.",
-                            HttpStatusCode.NotFound.value
-                        )
-                    )
-                }
-                HttpStatusCode.BadRequest -> {
-                    call.respond(
-                        HttpStatusCode.BadRequest,
-                        ExceptionResponse(
-                            "Oops! please check for malformed request syntax, invalid request message framing, or deceptive request routing",
-                            HttpStatusCode.BadRequest.value
-                        )
-                    )
-                }
-            }
-        }
+        configureStatusPages()
     }
 
     install(CORS) {
@@ -117,4 +58,65 @@ fun Application.configureApplication() {
         swaggerUI(path = "swagger", swaggerFile = "openapi/swagger.json")
     }
 
+}
+
+fun StatusPagesConfig.configureStatusPages(){
+    exception<Throwable> { call, throwable ->
+        throwable.printStackTrace()
+        call.respond(
+            status = HttpStatusCode.InternalServerError,
+            message = ExceptionResponse(
+                message = throwable.localizedMessage ?: throwable.message ?: throwable.cause?.localizedMessage ?: "Something went wrong",
+                code = HttpStatusCode.InternalServerError.value
+            )
+        )
+        throw throwable
+    }
+    status(
+        HttpStatusCode.InternalServerError,
+        HttpStatusCode.BadGateway,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.BadRequest
+    ) { call, statusCode ->
+        when (statusCode) {
+            HttpStatusCode.InternalServerError -> {
+                call.respond(
+                    HttpStatusCode.InternalServerError,
+                    ExceptionResponse(
+                        "Oops! internal server error at our end",
+                        HttpStatusCode.InternalServerError.value
+                    )
+                )
+            }
+
+            HttpStatusCode.BadGateway -> {
+                call.respond(
+                    HttpStatusCode.BadGateway,
+                    ExceptionResponse(
+                        "Oops! We got a bad gateway. Fixing it. Hold on!",
+                        HttpStatusCode.BadGateway.value
+                    )
+                )
+            }
+
+            HttpStatusCode.NotFound -> {
+                call.respond(
+                    HttpStatusCode.NotFound,
+                    ExceptionResponse(
+                        "Oops! We don't have that url!Please check it again.",
+                        HttpStatusCode.NotFound.value
+                    )
+                )
+            }
+            HttpStatusCode.BadRequest -> {
+                call.respond(
+                    HttpStatusCode.BadRequest,
+                    ExceptionResponse(
+                        "Oops! please check for malformed request syntax, invalid request message framing, or deceptive request routing",
+                        HttpStatusCode.BadRequest.value
+                    )
+                )
+            }
+        }
+    }
 }

@@ -6,9 +6,9 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNames
 
 @Serializable
-data class CallBackBody @OptIn(ExperimentalSerializationApi::class) constructor(
+data class SafaricomResultBody @OptIn(ExperimentalSerializationApi::class) constructor(
 	@JsonNames("Body")
-	val body: Body?
+	val body: Body
 )
 
 @Serializable
