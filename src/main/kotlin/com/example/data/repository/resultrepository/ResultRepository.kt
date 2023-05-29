@@ -2,17 +2,18 @@ package com.example.data.repository.resultrepository
 
 import com.example.data.models.HeliosStkCallBackResponse
 import com.example.data.models.StkCallback
-import com.example.data.tables.*
+import com.example.data.tables.MetadataTableEntity
+import com.example.data.tables.ResultTableEntity
+import com.example.data.tables.heliosStkCallBackResponse
 import com.example.utils.Logger
 import com.example.utils.dbQuery
 import com.example.utils.getCurrentTime
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import javax.swing.SortOrder
 
 class ResultRepository : IResultRepo {
     override suspend fun insertSTKBody(stkCallback: StkCallback): HeliosStkCallBackResponse = dbQuery {
-        Logger.info("Inserting stkcallback checkoutRequestID : ${stkCallback.checkoutRequestID} at ${getCurrentTime()}")
+        Logger.info("Inserting stk callback checkoutRequestID : ${stkCallback.checkoutRequestID} at ${getCurrentTime()}")
         val resultBody = ResultTableEntity.new {
             merchantRequestID = stkCallback.merchantRequestID
             checkoutRequestID = stkCallback.checkoutRequestID

@@ -30,6 +30,9 @@ context (Application)
 fun getHikariConfig() = HikariConfig().apply {
     isAutoCommit = true
 
+    password = fetchProperty("ktor.dataSource.password").getString()
+    username = fetchProperty("ktor.dataSource.username").getString()
+
     jdbcUrl = fetchProperty("ktor.dataSource.databasePath").getString()
     poolName = fetchProperty("ktor.dataSource.poolName").getString()
 
@@ -42,6 +45,7 @@ fun getHikariConfig() = HikariConfig().apply {
     transactionIsolation = "TRANSACTION_REPEATABLE_READ"
     validate()
 }
+
 
 context (Application)
 fun fetchProperty(propertyName: String) = environment.config.property(propertyName)
