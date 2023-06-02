@@ -4,6 +4,10 @@ services:
   app:
     build: ./
     container_name: helios_ktor
+    environment:
+      - DB_PATH=jdbc:postgresql://helios_database:5432/helios_database
+      - DB_PASS=password
+      - DB_USER=admin
     volumes:
       - ./:/Helios
     ports:
@@ -25,8 +29,13 @@ services:
       - "5432:5432"
     expose:
       - 5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
     networks:
       - helios-network
 networks:
   helios-network:
     driver: bridge
+
+volumes:
+  db_data:
